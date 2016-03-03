@@ -9,9 +9,11 @@ from UserManage.models import User,RoleList,PermissionList
 
 class LoginUserForm(forms.Form):
     username = forms.CharField(label=u'账 号',error_messages={'required':u'账号不能为空'},
-        widget=forms.TextInput(attrs={'class':'form-control'}))
+        widget=forms.TextInput(attrs={'class':'form-control top'}))
     password = forms.CharField(label=u'密 码',error_messages={'required':u'密码不能为空'},
-        widget=forms.PasswordInput(attrs={'class':'form-control'}))
+        widget=forms.PasswordInput(attrs={'class':'form-control buttom'}))
+    remember_me = forms.BooleanField(label=u'记 住',required=False,
+        widget=forms.CheckboxInput(attrs={'class':'checkbox'}))
 
     def __init__(self, request=None, *args, **kwargs):
         self.request = request

@@ -27,7 +27,7 @@ def LoginUser(request):
         form = LoginUserForm(request, data=request.POST)
         if form.is_valid():
             auth.login(request, form.get_user())
-            return HttpResponseRedirect(request.POST['next'])
+            return HttpResponseRedirect(request.POST.get('next','/'))
     else:
         form = LoginUserForm(request)
 
