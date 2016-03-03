@@ -8,7 +8,7 @@ from django.shortcuts import render_to_response,RequestContext
 
 @login_required
 def Home(request):
-   return render_to_response('home.html',locals(),RequestContext(request))
+   return render_to_response('index.html',locals(),RequestContext(request))
 
 def About(request):
    return render_to_response('about.html',locals(),RequestContext(request))

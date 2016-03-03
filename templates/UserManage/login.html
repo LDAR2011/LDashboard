@@ -22,12 +22,9 @@
       
         <div id="login" class="tab-pane active">
           <form action={% url "loginurl" %} role="form" action={% url "loginurl" %} method="POST">
-            <p class="text-muted text-center">
-              Enter your username and password
-            </p>
             {% csrf_token %}
             {{form}}
-            <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+            <button class="btn btn-lg btn-primary btn-block" type="submit">登录</button>
           </form>
         </div>
         
