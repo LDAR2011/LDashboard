@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Login Page</title>
+    <meta name="msapplication-TileColor" content="#5bc0de" />
+    <meta name="msapplication-TileImage" content="/static/img/metis-tile.png" />
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/animate.min.css">
+
+    <!-- Metis core stylesheet -->
+    <link rel="stylesheet" href="/static/css/main.min.css">
+  </head>
+  <body class="login">
+    <div class="form-signin">
+      <div class="text-center">
+        <img src="/static/img/logo.png" alt="Metis Logo">
+      </div>
+      <hr>
+      
+        <div id="login" class="tab-pane active">
+          <form action={% url "loginurl" %} role="form" action={% url "loginurl" %} method="POST">
+            {% csrf_token %}
+            {{form}}
+            <button class="btn btn-lg btn-primary btn-block" type="submit">登录</button>
+          </form>
+        </div>
+        
+    </div>
+
+    <!--jQuery -->
+    <script src="/static/js/jquery.min.js"></script>
+
+    <!--Bootstrap -->
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+      (function($) {
+        $(document).ready(function() {
+          $('.list-inline li > a').click(function() {
+            var activeForm = $(this).attr('href') + ' > form';
+            //console.log(activeForm);
+            $(activeForm).addClass('animated fadeIn');
+            //set timer to 1 seconds, after that, unload the animate animation
+            setTimeout(function() {
+              $(activeForm).removeClass('animated fadeIn');
+            }, 1000);
+          });
+        });
+      })(jQuery);
+    </script>
+  </body>
+</html>
