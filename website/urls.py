@@ -3,9 +3,6 @@ from django.conf.urls import patterns, include, url
 from django.conf import settings
 from website.views import Home,About
 
-#from django.contrib import admin
-#admin.autodiscover()
-
 urlpatterns = patterns('',
     # Examples:
     # url(r'^$', 'website.views.home', name='home'),

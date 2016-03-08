@@ -3,12 +3,14 @@ from django.conf.urls import patterns, include, url
 urlpatterns = patterns('UserManage.views',
     url(r'^login/$', 'user.LoginUser', name='loginurl'),
     url(r'^logout/$', 'user.LogoutUser', name='logouturl'),
-
+    
+    url(r'^home/', 'user.accountHome', name='accounthome'),
+    
     url(r'^user/add/$', 'user.AddUser', name='adduserurl'),
     url(r'^user/list/$', 'user.ListUser', name='listuserurl'),
     url(r'^user/edit/(?P<ID>\d+)/$', 'user.EditUser', name='edituserurl'),
     url(r'^user/delete/(?P<ID>\d+)/$', 'user.DeleteUser', name='deleteuserurl'),
-
+    
     url(r'^user/changepwd/$', 'user.ChangePassword', name='changepasswordurl'),
     url(r'^user/resetpwd/(?P<ID>\d+)/$', 'user.ResetPassword', name='resetpasswordurl'),
 

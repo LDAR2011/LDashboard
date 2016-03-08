@@ -4,7 +4,7 @@
 
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse,HttpResponseRedirect
-from django.shortcuts import render_to_response,RequestContext
+from django.shortcuts import render_to_response,RequestContext,render
 from django.contrib.auth.decorators import login_required
 from website.common.CommonPaginator import SelfPaginator
 from UserManage.views.permission import PermissionVerify
@@ -12,6 +12,8 @@ from UserManage.views.permission import PermissionVerify
 from django.contrib import auth
 from django.contrib.auth import get_user_model
 from UserManage.forms import LoginUserForm,ChangePasswordForm,AddUserForm,EditUserForm
+
+from UserManage.models import User,RoleList,PermissionList
 
 def LoginUser(request):
     '''用户登录view'''
@@ -147,3 +149,8 @@ def ResetPassword(request,ID):
     }
 
     return render_to_response('UserManage/password.reset.html',kwvars,RequestContext(request))
+
+@login_required
+@PermissionVerify()
+def accountHome(request):
+    return render(request,'home.html',{})
