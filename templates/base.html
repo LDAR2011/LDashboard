@@ -119,10 +119,9 @@
           </div>
           <div class="user-wrapper bg-dark">
             <div class="media-body">
-              <h5 class="media-heading">用户名：林督</h5>
+              <h5 class="media-heading">用户名：{{ username }}</h5>
               <ul class="list-unstyled user-info">
-                <li>角色：管理员</li>
-                <li>上次登录:&nbsp;16 Mar 16:32</small> 
+                <li>角色：{{ rolename }}</li>
                 </li>
               </ul>
             </div>
@@ -134,10 +133,17 @@
           <li class="nav-header">控制台</li>
           <li class="nav-divider"></li>
           <li class="">
-            <a href="dashboard.html">
+            <a href="/">
               <i class="fa fa-dashboard"></i><span class="link-title">&nbsp;Dashboard</span> 
             </a> 
           </li>
+          {% if rolename == "superuser" %}
+          <li class="">
+            <a href="/accounts/user/">
+              <i class="fa fa-dashboard"></i><span class="link-title">&nbsp;用户管理</span> 
+            </a>
+          </li>
+          {% endif %}
           <li class="nav-divider"></li>
           <li>
             <a href="login.html">

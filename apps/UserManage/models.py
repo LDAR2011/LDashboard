@@ -4,7 +4,7 @@ from django.db import models
 
 # Create your models here.
 class UserRole(models.Model):
-    user_id = models.IntegerField(primary_key=True)
-    user_name = models.CharField(max_length=200)
-    role_name = models.CharField(max_length=40)
-    
+    username = models.CharField(max_length=200)
+    rolename = models.CharField(max_length=60)
+    def __str__(self):
+        return self.username+':'+self.rolename

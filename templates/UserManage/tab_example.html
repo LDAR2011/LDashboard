@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}
+    用户管理
+{% endblock %}
+{% block content %}
+    <div class="tab-content">
+        <div class="text-left">
+            <ul class="list-inline nav nav-pills">
+            <li class="active"> <a class="text-muted" href="#login" data-toggle="tab" >用户列表</a>  </li>
+            <li> <a class="text-muted" href="#forgot" data-toggle="tab">添加新用户</a>  </li>
+            <li> <a class="text-muted" href="#signup" data-toggle="tab">删除用户</a>  </li>
+            </ul>
+        </div>
+        <hr>
+        <div id="login" class="tab-pane active">
+          <div>
+            <table class="table table-hover table-striped  table-bordered table-condensed">
+                <tr>
+                    <th>账号</th>
+                    <th>姓名</th>
+                    <th>性别</th>
+                    <th>Email</th>
+                    <th>状态</th>
+                    <th>角色</th>
+                    <th>最后登录时间</th>
+                    <th>操作</th>
+                </tr>
+                
+                
+            </table>
+          </div>
+        </div>
+        <div id="forgot" class="tab-pane">
+          <div>
+            <p class="text-muted text-center">Enter your valid e-mail</p>
+          </div>
+        </div>
+        <div id="signup" class="tab-pane">
+          <div>
+            <p class="text-muted text-center">Register</p>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+    <script type="text/javascript">
+      (function($) {
+        $(document).ready(function() {
+          $('.list-inline li > a').click(function() {
+            var activeForm = $(this).attr('href') + ' > div';
+            //console.log(activeForm);
+            $(activeForm).addClass('animated fadeIn');
+            //set timer to 1 seconds, after that, unload the animate animation
+            setTimeout(function() {
+              $(activeForm).removeClass('animated fadeIn');
+            }, 1000);
+          });
+        });
+      })(jQuery);
+    </script>
+{% endblock %}

@@ -28,3 +28,7 @@ urlpatterns = [
     #static
     #url(r'^static/(?P<path>.*)$', 'django.views.static.serve', { 'document_root': settings.STATIC_ROOT,}),
 ]
+
+
+from django.conf.urls import handler404
+handler404 = 'views.handler404'

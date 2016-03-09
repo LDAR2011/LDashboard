@@ -8,6 +8,7 @@ urlpatterns = [
     url(r'^login/$', views.LoginUser, name='loginurl'),
     url(r'^logout/$', views.LogoutUser, name='logouturl'),
     
+    url(r'^user/$', views.UserMain, name='usermain'),
     url(r'^user/add/$', views.AddUser, name='adduserurl'),
     url(r'^user/list/$', views.ListUser, name='listuserurl'),
     url(r'^user/edit/(?P<ID>\d+)/$', views.EditUser, name='edituserurl'),

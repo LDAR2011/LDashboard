@@ -6,6 +6,8 @@ from django.http import HttpResponse,HttpResponseRedirect
 from models import UserRole
 from forms import LoginUserForm
 from django.contrib import auth
+from django.contrib.auth.decorators import login_required
+import utils
 
 '''
 url(r'^user/add/$', views.AddUser, name='adduserurl'),
@@ -46,24 +48,41 @@ def LoginUser(request):
     return render_to_response('UserManage/login.html',kwvars,RequestContext(request))
 
 #accounts/logout
+@login_required
 def LogoutUser(request):
     auth.logout(request)
     return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+    
+@login_required
+@utils.role_required(['superuser'])
+def UserMain(request):
+    rolename = utils.get_rolename_by_username(request.user)
+    return render_to_response('UserManage/user.html',{'rolename':rolename, 'username':request.user}, RequestContext(request))
 
+@login_required
+@utils.role_required(['superuser'])
 def AddUser(request):
     return HttpResponse(sys._getframe().f_code.co_name)
 
+@login_required
+@utils.role_required(['superuser'])
 def ListUser(request):
     return HttpResponse(sys._getframe().f_code.co_name)
 
+@login_required
+@utils.role_required(['superuser'])
 def EditUser(request):
     return HttpResponse(sys._getframe().f_code.co_name)
 
+@login_required
+@utils.role_required(['superuser'])
 def DeleteUser(request):
     return HttpResponse(sys._getframe().f_code.co_name)
 
+@login_required
 def ChangePassword(request):
     return HttpResponse(sys._getframe().f_code.co_name)
 
+@login_required
 def ResetPassword(request):
     return HttpResponse(sys._getframe().f_code.co_name)
