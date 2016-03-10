@@ -18,12 +18,26 @@ def role_required(required_role):
             rolename = get_rolename_by_username(request.user)
             if rolename in required_role:
                 return f(request, *args)
+            elif rolename == '':
+                userrole = UserRole.objects.get(username=request.user)
+                userrole.rolename = 'commonuser'
+                userrole.save()
             else:
                 return HttpResponseRedirect(reverse('loginurl'))
             
         return wrapped_f
     return wrap
-    
+
+'''
+def record_before_clean(fieldname, fields, cleaned_data):
+    def wrap(f):
+        def wrapped_f(*args):
+            fields[fieldname] = cleaned_data.get(fields)
+            return f(*args)
+        return wrapped_f
+    return wrap
+'''
+
 def get_rolename_by_username(username):
     '''
     username not exist: Unvalid

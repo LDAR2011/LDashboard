@@ -3,10 +3,11 @@
 
 from django.shortcuts import render,render_to_response,RequestContext
 from django.http import HttpResponse,HttpResponseRedirect
-from models import UserRole
-from forms import LoginUserForm
+from models import UserRole,UserInfo
+from forms import LoginUserForm, AddUserForm, EditUserForm
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 import utils
 
 '''
@@ -57,12 +58,50 @@ def LogoutUser(request):
 @utils.role_required(['superuser'])
 def UserMain(request):
     rolename = utils.get_rolename_by_username(request.user)
-    return render_to_response('UserManage/user.html',{'rolename':rolename, 'username':request.user}, RequestContext(request))
+    return_dict = {'rolename':rolename, 'username':request.user, 'errorwindowname':'None'}
+    
+    #add user
+    adduserform = AddUserForm()
+    return_dict['addUserForm'] = adduserform
+    
+    edituserform = EditUserForm()
+    return_dict['editUserForm'] = edituserform
+    
+    if request.method == "POST":
+        if request.POST.get('formtype') == 'add':
+            adduserform = AddUserForm(request.POST)
+            if adduserform.is_valid():
+                
+                user = User.objects.create_user(adduserform.fields.get('username'), 
+                                                adduserform.fields.get('email'),
+                                                adduserform.fields.get('password'))
+                userrole = UserRole(username=user.username, 
+                                    rolename=adduserform.fields.get('rolename'),
+                                    domain=adduserform.fields.get('domain'),
+                                    realname=adduserform.fields.get('realname'))
+                user.save()
+                userrole.save()
+                
+            else:
+                return_dict['errorwindowname'] = 'messagewindow'
+                return_dict['errormessage'] = adduserform.error_message
+                
+        if request.POST.get('formtype') == 'edit':
+            pass
+            
+        if request.POST.get('formtype') == 'delete':
+            pass
 
-@login_required
-@utils.role_required(['superuser'])
-def AddUser(request):
-    return HttpResponse(sys._getframe().f_code.co_name)
+    #list user
+    users = User.objects.all()
+    userinfos = []
+    for user in users:
+        userinfos.append(UserInfo(user))
+    
+    return_dict['userlist'] = userinfos
+    
+    return render_to_response('UserManage/user.html',return_dict, RequestContext(request))
+
 
 @login_required
 @utils.role_required(['superuser'])
