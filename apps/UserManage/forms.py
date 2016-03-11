@@ -40,7 +40,7 @@ class AddUserForm(forms.Form):
     password = forms.CharField(label='',required=False,widget=forms.PasswordInput(attrs={'class':'form-control form-group', 'placeholder':u'密码'}),initial='')
     rpassword = forms.CharField(label='',required=False,widget=forms.PasswordInput(attrs={'class':'form-control form-group', 'placeholder':u'确认密码'}),initial='')
     rolename = forms.ChoiceField(label='',required=False,choices=[(role, role) for role in UserRole.Roles], 
-        widget=forms.Select(attrs={'class':'form-control form-group'}), initial='commonuser')
+        widget=forms.Select(attrs={'class':'form-control form-group'}), initial=u'普通用户')
     domain = forms.CharField(label='',required=False,widget=forms.TextInput(attrs={'class':'form-control form-group', 'placeholder':u'用户域'}),initial='')
     realname = forms.CharField(label='',required=False,widget=forms.TextInput(attrs={'class':'form-control form-group', 'placeholder':u'姓名'}),initial='')
     email = forms.CharField(label='',required=False,widget=forms.TextInput(attrs={'class':'form-control form-group', 'placeholder':u'邮箱'}),initial='')    
@@ -121,7 +121,7 @@ class EditUserForm(forms.Form):
     username = forms.CharField(label='',required=False,widget=forms.TextInput(
         attrs={'class':'form-control form-group', 'placeholder':u'用户名', 'readonly':'True'}),initial='')
     rolename = forms.ChoiceField(label='',required=False,choices=[(role, role) for role in UserRole.Roles],
-        widget=forms.Select(attrs={'class':'form-control form-group'}), initial='commonuser')
+        widget=forms.Select(attrs={'class':'form-control form-group'}), initial=u'普通用户')
     domain = forms.CharField(label='',required=False,widget=forms.TextInput(attrs={'class':'form-control form-group', 'placeholder':u'用户域'}),initial='')
     realname = forms.CharField(label='',required=False,widget=forms.TextInput(attrs={'class':'form-control form-group', 'placeholder':u'姓名'}),initial='')
     email = forms.CharField(label='',required=False,widget=forms.TextInput(attrs={'class':'form-control form-group', 'placeholder':u'邮箱'}),initial='')

@@ -18,9 +18,14 @@
       <!-- 
       <div class="toolbar">
       -->
+      
+        <a href="?page={{ userlist.number }}" class="btn btn-primary btn-flat">
+            <i class="glyphicon glyphicon-refresh"></i>刷新列表
+        </a>
         <a href="#" class="btn btn-success btn-flat" data-title="Add" data-toggle="modal" data-target="#add">
             <i class="glyphicon glyphicon-plus"></i>增加新用户
         </a>
+        
       <!--
       </div>
       -->
@@ -95,28 +100,41 @@
         <div class="clearfix">
         </div>
         <ul class="pagination pull-right">
+          {% if userlist.has_previous %}
+          <li>
+            <a href="?page={{ userlist.previous_page_number }}">
+              <span class="glyphicon glyphicon-chevron-left">
+              </span>
+            </a>
+          </li>
+          {% else %}
           <li class="disabled">
             <a href="#">
               <span class="glyphicon glyphicon-chevron-left">
               </span>
             </a>
           </li>
+          {% endif %}
           <li class="active">
             <a href="#">
-              1
+              Page {{ userlist.number }} of {{ userlist.paginator.num_pages }}
             </a>
           </li>
+          {% if userlist.has_next %}
           <li>
-            <a href="#">
-              2
+            <a href="?page={{ userlist.next_page_number }}">
+              <span class="glyphicon glyphicon-chevron-right">
+              </span>
             </a>
           </li>
-          <li>
+          {% else %}
+          <li class="disabled">
             <a href="#">
               <span class="glyphicon glyphicon-chevron-right">
               </span>
             </a>
           </li>
+          {% endif %}
         </ul>
       </div>
     </div>
@@ -228,7 +246,7 @@
   <!-- /.modal-dialog -->
 </div>
 
-<div class="modal fade" id="messagewindow" tabindex="-1" role="dialog" aria-labelledby="messagewindow" aria-hidden="true">
+<div class="modal fade" id="errorwindow" tabindex="-1" role="dialog" aria-labelledby="errorwindow" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -244,7 +262,7 @@
         <div class="alert alert-danger">
           <span class="glyphicon glyphicon-warning-sign">
           </span>
-          {{ errormessage }}
+          {{ windowmessage }}
         </div>
       </div>
     </div>
@@ -252,10 +270,33 @@
   </div>
   <!-- /.modal-dialog -->
 </div>
-
+<div class="modal fade" id="successwindow" tabindex="-1" role="dialog" aria-labelledby="successwindow" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+          <span class="glyphicon glyphicon-remove" aria-hidden="true">
+          </span>
+        </button>
+        <h4 class="modal-title custom_align" id="Heading">
+          操作成功
+        </h4>
+      </div>
+      <div class="modal-body">
+        <div class="alert alert-success">
+          <span class="glyphicon glyphicon-warning-sign">
+          </span>
+          {{ windowmessage }}
+        </div>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
 <script type="text/javascript">
   $(window).load(function(){
-        $('#{{ errorwindowname }}').modal('show');
+        $('#{{ windowname }}').modal('show');
   });
   $(document).ready(function() {
     $("#mytable #checkall").click(function() {

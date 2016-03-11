@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+#-*- coding: utf-8 -*-
+
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse,HttpResponseRedirect
 from django.shortcuts import render_to_response,RequestContext
@@ -16,11 +19,12 @@ def role_required(required_role):
         def wrapped_f(request, *args):
             
             rolename = get_rolename_by_username(request.user)
+            print rolename
             if rolename in required_role:
                 return f(request, *args)
             elif rolename == '':
                 userrole = UserRole.objects.get(username=request.user)
-                userrole.rolename = 'commonuser'
+                userrole.rolename = u'普通用户'
                 userrole.save()
             else:
                 return HttpResponseRedirect(reverse('loginurl'))
@@ -49,9 +53,6 @@ def get_rolename_by_username(username):
         user = User.objects.get(username=username)
     except Exception as e:
         return ''
-    
-    if user.is_superuser:
-        return 'superuser'
     
     try:
         userrole = UserRole.objects.get(username=username)

@@ -134,19 +134,22 @@
         <ul id="menu" class="bg-blue dker">
           <li class="nav-header">控制台</li>
           <li class="nav-divider"></li>
-          <li class="">
-            <a href="/">
-              <i class="fa fa-dashboard"></i><span class="link-title">&nbsp;Dashboard</span> 
-            </a> 
-          </li>
-          {% if rolename == "superuser" %}
+          {% if rolename == "超级管理员" %}
           <li class="">
             <a href="/accounts/user/">
               <i class="fa fa-dashboard"></i><span class="link-title">&nbsp;用户管理</span> 
             </a>
           </li>
-          {% endif %}
           <li class="nav-divider"></li>
+          {% endif %}
+          
+          
+          
+          <li class="">
+            <a href="/">
+              <i class="fa fa-dashboard"></i><span class="link-title">&nbsp;Dashboard</span> 
+            </a> 
+          </li>
           <li>
             <a href="login.html">
               <i class="fa fa-sign-in"></i>
