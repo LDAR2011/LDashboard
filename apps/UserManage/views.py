@@ -72,25 +72,67 @@ def UserMain(request):
             adduserform = AddUserForm(request.POST)
             if adduserform.is_valid():
                 
-                user = User.objects.create_user(adduserform.fields.get('username'), 
-                                                adduserform.fields.get('email'),
-                                                adduserform.fields.get('password'))
-                userrole = UserRole(username=user.username, 
-                                    rolename=adduserform.fields.get('rolename'),
-                                    domain=adduserform.fields.get('domain'),
-                                    realname=adduserform.fields.get('realname'))
-                user.save()
-                userrole.save()
+                #what happened when exact same username exists?
+                
+                if User.objects.filter(username=adduserform.fields.get('username')).count() == 0:
+                    
+                    user = User.objects.create_user(adduserform.fields.get('username'), 
+                                                    adduserform.fields.get('email'),
+                                                    adduserform.fields.get('password'))
+                    user.save()
+                    
+                    userrole_list = UserRole.objects.filter(username=adduserform.fields.get('username'))
+                    if userrole_list.count() != 0:
+                        userrole_list.delete()
+                    
+                    userrole = UserRole(username=user.username, 
+                                            rolename=adduserform.fields.get('rolename'),
+                                            domain=adduserform.fields.get('domain'),
+                                            realname=adduserform.fields.get('realname'))                    
+                    userrole.save()
+                    
+                    print 'create:',user.username
+                    
+                else:
+                    return_dict['errorwindowname'] = 'messagewindow'
+                    return_dict['errormessage'] = u'用户名已存在，请更换用户名'
+                    
                 
             else:
                 return_dict['errorwindowname'] = 'messagewindow'
                 return_dict['errormessage'] = adduserform.error_message
                 
         if request.POST.get('formtype') == 'edit':
-            pass
+            edituserform = EditUserForm(request.POST)
+            if edituserform.is_valid():
+                
+                user = User.objects.get(username=edituserform.fields.get('username'))
+                userrole = UserRole.objects.get(username=edituserform.fields.get('username'))
+                
+                user.email = edituserform.fields.get('email')
+                userrole.rolename, userrole.domain, userrole.realname = \
+                    edituserform.fields.get('rolename'),\
+                    edituserform.fields.get('domain'),\
+                    edituserform.fields.get('realname')
+                
+                user.save()
+                userrole.save()
+            else:
+                return_dict['errorwindowname'] = 'messagewindow'
+                return_dict['errormessage'] = edituserform.error_message
+                
+                
             
         if request.POST.get('formtype') == 'delete':
-            pass
+            
+            deleteusername = request.POST.get('username','')
+            print 'deleteusername:',deleteusername
+            if deleteusername == request.user:
+                return_dict['errorwindowname'] = 'messagewindow'
+                return_dict['errormessage'] = u'不能删除自己'
+            
+            User.objects.filter(username=deleteusername).delete()
+            UserRole.objects.filter(username=deleteusername).delete()
 
     #list user
     users = User.objects.all()

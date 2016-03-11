@@ -7,7 +7,7 @@ from django.db import models
 
 # Create your models here.
 class UserRole(models.Model):
-    Roles = ['superuser', 'comptoller', 'commonuser']
+    Roles = [u'超级管理员', u'审计员', u'普通用户',u'域管理员']
     domains = []
     username = models.CharField(max_length=200)
     rolename = models.CharField(max_length=60)

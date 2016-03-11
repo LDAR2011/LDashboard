@@ -4,6 +4,7 @@
 from django import forms
 from django.contrib import auth
 from django.contrib.auth import get_user_model
+from models import UserRole
 
 class LoginUserForm(forms.Form):
     username = forms.CharField(label=u'账 号',error_messages={'required':u'账号不能为空'},
@@ -38,7 +39,7 @@ class AddUserForm(forms.Form):
     username = forms.CharField(label='',required=False,widget=forms.TextInput(attrs={'class':'form-control form-group', 'placeholder':u'用户名'}),initial='')
     password = forms.CharField(label='',required=False,widget=forms.PasswordInput(attrs={'class':'form-control form-group', 'placeholder':u'密码'}),initial='')
     rpassword = forms.CharField(label='',required=False,widget=forms.PasswordInput(attrs={'class':'form-control form-group', 'placeholder':u'确认密码'}),initial='')
-    rolename = forms.ChoiceField(label='',required=False,choices=(('superuser', u'超级管理员'), ('comptoller',u'审计员'), ('commonuser',u'普通用户')), 
+    rolename = forms.ChoiceField(label='',required=False,choices=[(role, role) for role in UserRole.Roles], 
         widget=forms.Select(attrs={'class':'form-control form-group'}), initial='commonuser')
     domain = forms.CharField(label='',required=False,widget=forms.TextInput(attrs={'class':'form-control form-group', 'placeholder':u'用户域'}),initial='')
     realname = forms.CharField(label='',required=False,widget=forms.TextInput(attrs={'class':'form-control form-group', 'placeholder':u'姓名'}),initial='')
@@ -119,12 +120,34 @@ class AddUserForm(forms.Form):
 class EditUserForm(forms.Form):
     username = forms.CharField(label='',required=False,widget=forms.TextInput(
         attrs={'class':'form-control form-group', 'placeholder':u'用户名', 'readonly':'True'}),initial='')
-    rolename = forms.ChoiceField(label='',required=False,choices=(('superuser', u'超级管理员'), ('comptoller',u'审计员'), ('commonuser',u'普通用户')), 
+    rolename = forms.ChoiceField(label='',required=False,choices=[(role, role) for role in UserRole.Roles],
         widget=forms.Select(attrs={'class':'form-control form-group'}), initial='commonuser')
     domain = forms.CharField(label='',required=False,widget=forms.TextInput(attrs={'class':'form-control form-group', 'placeholder':u'用户域'}),initial='')
     realname = forms.CharField(label='',required=False,widget=forms.TextInput(attrs={'class':'form-control form-group', 'placeholder':u'姓名'}),initial='')
     email = forms.CharField(label='',required=False,widget=forms.TextInput(attrs={'class':'form-control form-group', 'placeholder':u'邮箱'}),initial='')
-
-            
     
+    
+    def __init__(self,*args, **kwargs):
+        self.error_message = u'修改用户属性失败'
+        self.fields = {}
+        super(EditUserForm,self).__init__(*args,**kwargs)
+    
+    def record_field(self, fieldname):
+        self.fields[fieldname] = self.cleaned_data.get(fieldname)
+        return self.cleaned_data
+    
+    def clean_username(self):
+        return self.record_field('username')
+        
+    def clean_rolename(self):
+        return self.record_field('rolename')
+    
+    def clean_domain(self):
+        return self.record_field('domain')
+    
+    def clean_realname(self):
+        return self.record_field('realname')
+    
+    def clean_email(self):
+        return self.record_field('email')
         
